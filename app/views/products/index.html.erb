@@ -1,0 +1,27 @@
+<p>
+  <% if flash[:notice] %>
+    <%= flash[:notice] %>
+  <% end %>
+</p>
+
+<h1>課題6-2</h1>
+<h2>オンラインショッピング</h2>
+
+<p>
+    <table initialTab="item_table" %>
+    <tr>
+        <th>商品名</th> <th>価格</th> <th></th>
+    </tr>
+    <% @products.each do |e| %>
+        <tr>
+            <td><%= e["name"] %></td> <td><%= e["price"] %>円</td>
+            <td>
+                <%= link_to 'カートに追加', new_cartitem_path(product_id: e.id) %>
+                <%= link_to '削除', "/products/#{e.id}", method: :delete %>
+            </td>
+        </tr>
+    <% end %>
+    </table>
+</p>
+<p><%= link_to '新規商品登録', '/products/new' %></p>
+<p><%= link_to 'カートに移動', '/carts/show' %></p>

@@ -1,0 +1,28 @@
+<h1>カート</h1>
+    <% if Cartitem.find_by(cart_id: session[:cart_id]) %>
+        <table initialTab="cart_table" %>
+            <tr>
+                <th>商品名</th> <th>価格</th> <th>数量</th> <th></th>
+            </tr>
+            <% total = 0 %>
+            <% @cartitems.each do |i| %>
+                <% if i.cart_id == session[:cart_id] %>
+                    <% product = Product.find_by(id: i.product_id) %>
+                    <tr>
+                        <td><%= product.name %></td>
+                        <td><%= product.price %>円</td>
+                        <td><%= i.quantity %></td>
+                        <% total = total + product.price * i.quantity %>
+                        <td><%= link_to 'カートから削除', "/cartitems/#{i.id}", method: :delete %></td>
+                    </tr>
+                <% end %>
+            <% end %>
+            <th class="cart_total" colspan="4">合計：　
+                <%= total %>円
+            </th>
+        </table>
+    <% else %>
+        カートになにもないよ。
+    <% end %>
+    <p><h2><%= link_to '購入確定', '/carts/enter' %></h2></p>
+    <p><%= link_to '戻る', '/top/main' %></p>
